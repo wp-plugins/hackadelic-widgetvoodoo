@@ -12,10 +12,27 @@ Turns sidebar widgets into collapsible, cool AJAX-type citizens.
 
 Check out [the plug-in homepage](http://hackadelic.com/solutions/wordpress/widgetvoodoo "Hackadelic Widget Voodoo") for in-depth information about the plug-in.
 
+### Change Log
+
+#### [1.0.2](http://hackadelic.com/widget-voodoo-1-0-2-releasewidget-voodoo-1-0-2-release)
+
+Fixes the widget body wrapping strategy to avoid a problem with the tag cloud widget (and probably with others, too).
+
+Also, due to a rectification of the CSS class assignment will require a minor change in your CSS clauses.
+The [the plug-in homepage](http://hackadelic.com/solutions/wordpress/widgetvoodoo "Hackadelic Widget Voodoo") has been updated to reflect the new CSS structure. See [the details in the release announcement post](http://hackadelic.com/widget-voodoo-1-0-2-releasewidget-voodoo-1-0-2-release).
+
+#### 1.0.2
+
+Refrains from wrapping widgets bodies that are already wrapped in a single element (and reuses that element instead) to avoid some formatting problems reported by [Saintneko](http://hackadelic.com/solutions/wordpress/widgetvoodoo#comment-307).
+
+#### [1.0.0](http://hackadelic.com/widget-voodoo-plugin-released)
+
+Initial public release
+
 == Installation ==
 
 1. Upload the whole plugin folder to your /wp-content/plugins/ folder.
-1. Go to the Plugins page and activate the plugin.
+1. Go to the *Plugins* page and activate the plugin.
 1. Go to the setting's page, and [configure the plugin](http://hackadelic.com/solutions/wordpress/widgetvoodoo#toc-anchor-163-3 "Hackadelic Widget Voodoo Configuration").
 
 == Screenshots ==
@@ -40,4 +57,4 @@ You only need to install and configure it. Everything else is *automatic*.
 
 = I love your work, are you available for hire? =
 
-Yes I am. [Contact me](http://hackadelic.com/contact) to "talk turkey" :)
+Yes I am. [Contact me](http://hackadelic.com/contact) to "talk turkey" :) 
