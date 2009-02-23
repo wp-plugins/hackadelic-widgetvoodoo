@@ -18,7 +18,7 @@ Check out [the plug-in homepage](http://hackadelic.com/solutions/wordpress/widge
 
 Fixes the widget body wrapping strategy to avoid a problem with the tag cloud widget (and probably with others, too).
 
-Also, due to a rectification of the CSS class assignment will require a minor change in your CSS clauses.
+Also, a rectification of the CSS class assignment will require a minor change in your CSS clauses.
 The [the plug-in homepage](http://hackadelic.com/solutions/wordpress/widgetvoodoo "Hackadelic Widget Voodoo") has been updated to reflect the new CSS structure. See [the details in the release announcement post](http://hackadelic.com/widget-voodoo-1-0-2-releasewidget-voodoo-1-0-2-release).
 
 #### 1.0.2
