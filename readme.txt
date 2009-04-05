@@ -6,7 +6,7 @@ Requires at least: 2.6
 Tested up to: 2.7
 Stable tag: 1.0.3
 
-Turns sidebar widgets into collapsible, cool AJAX-type citizens.
+Morphs your sidebar widgets into collapsible, cool AJAX-type citizens.
 
 == Description ==
 
