@@ -14,6 +14,10 @@ Check out [the plug-in homepage](http://hackadelic.com/solutions/wordpress/widge
 
 ### Change Log
 
+#### [1.0.3](http://hackadelic.com/widget-voodoo-release-103)
+
+Fixes an issue with the tag cloud widget.
+
 #### [1.0.2](http://hackadelic.com/widget-voodoo-1-0-2-releasewidget-voodoo-1-0-2-release)
 
 Fixes the widget body wrapping strategy to avoid a problem with the tag cloud widget (and probably with others, too).
