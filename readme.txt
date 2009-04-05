@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: content, theme, AJAX, sidebar, widget, widgets
 Requires at least: 2.6
 Tested up to: 2.7
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 
 Turns sidebar widgets into collapsible, cool AJAX-type citizens.
 
