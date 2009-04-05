@@ -1,7 +1,7 @@
 <?php 
 /*
 Plugin Name: Hackadelic WidgetVoodoo
-Version: 1.0.2
+Version: 1.0.3
 Plugin URI: http://hackadelic.com/solutions/wordpress/widgetvoodoo
 Description: Morphs sidebar widgets into cool, collapsible AJAX-type citizens.
 Author: Hackadelic
