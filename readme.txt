@@ -14,6 +14,10 @@ This plugin morphs your sidebar widgets into collapsible, cool AJAX-type citizen
 
 ### Change Log
 
+#### [1.0.4](http://hackadelic.com/widget-voodoo-release-104-supports-variable-title-styling)
+
+Adds support for variable styling of widget titles depending on the collapsed/expanded state of the widget. (A typical use case is, for example, arrows pointing in different directions as background images).
+
 #### [1.0.3](http://hackadelic.com/widget-voodoo-release-103)
 
 Fixes an issue with the tag cloud widget.
