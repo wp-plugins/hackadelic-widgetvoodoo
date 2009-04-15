@@ -1,12 +1,16 @@
 <?php 
 /*
 Plugin Name: Hackadelic WidgetVoodoo
-Version: 1.0.4
+Version: 1.0.5
 Plugin URI: http://hackadelic.com/solutions/wordpress/widgetvoodoo
 Description: Morphs sidebar widgets into cool, collapsible AJAX-type citizens.
 Author: Hackadelic
 Author URI: http://hackadelic.com
 */
+//---------------------------------------------------------------------------------------------
+
+add_action('plugins_loaded', array('HackadelicWidgetVoodoo', 'start'));
+
 //---------------------------------------------------------------------------------------------
 
 class HackadelicWidgetVoodooContext
@@ -34,10 +38,9 @@ class HackadelicWidgetVoodooContext
 		$name = $this->fullname($name);
 		update_option($name, $option);
 	}
-	function erase_option(&$option, $name) {
+	function erase_option($name) {
 		$name = $this->fullname($name);
 		delete_option($name);
-		$option = null;
 	}
 }
 
@@ -45,30 +48,34 @@ class HackadelicWidgetVoodooContext
 
 class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 {
-	var $PLUGIN_TITLE = 'Hackadelic Widget Voodoo';
+	var $PLUGIN_TITLE = 'Widget Voodoo';
 	var $VERSION = '1.0.4';
 	
 	var $WIDGET_WRAP_SELECTOR = '.widget';
 	var $WIDGET_TITLE_SELECTOR = '.widgettitle';
 	var $AUTOCOLLAPSE_SELECTOR = '';
 
-	function setup() {
-		$trim = array(&$this, 'trim');
-		$this->load_option($this->WIDGET_WRAP_SELECTOR, 'WIDGET_WRAP_SELECTOR', $trim);
-		$this->load_option($this->WIDGET_TITLE_SELECTOR, 'WIDGET_TITLE_SELECTOR', $trim);
-		$this->load_option($this->AUTOCOLLAPSE_SELECTOR, 'AUTOCOLLAPSE_SELECTOR', $trim);
+	function start() {
+		$me = new HackadelicWidgetVoodoo();
+		//NOTE: Interestingly, the following call does not work inside an instance method.
+		//      However, it works here, as this method is invoked statically.
+		register_deactivation_hook(__FILE__, array(&$me, 'uninstall'));
+	}
 
-		if (is_admin()):
+	function HackadelicWidgetVoodoo() {
+		//register_deactivation_hook(__FILE__, array(&$this, 'unsinstall'));
+		$trim = array(&$this, 'trim');
+		$this->loadOptions();
+		if (is_admin())
 			add_action('admin_menu', array(&$this, 'addAdminMenu'));
-		elseif ($this->WIDGET_WRAP_SELECTOR && $this->WIDGET_TITLE_SELECTOR) :
+		elseif ($this->WIDGET_WRAP_SELECTOR && $this->WIDGET_TITLE_SELECTOR)
 			add_action('wp_print_scripts', array(&$this, 'embedScripts'));
-		endif;
 	}
 
 	//-------------------------------------------------------------------------------------
 
-	function trim($s) {
-		return preg_replace('/^\s+|\s+$/', '', $s);
+	function uninstall() {
+		delete_option($this->CTXID());
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -91,12 +98,52 @@ class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 	}
 
 	//=====================================================================================
+	// AUX
+	//=====================================================================================
+
+	function trim($s) {
+		return preg_replace('/^\s+|\s+$/', '', $s);
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	function optionsmap() {
+		return array(
+			'WIDGET_WRAP_SELECTOR' =>& $this->WIDGET_WRAP_SELECTOR,
+			'WIDGET_TITLE_SELECTOR' =>& $this->WIDGET_TITLE_SELECTOR,
+			'AUTOCOLLAPSE_SELECTOR' =>& $this->AUTOCOLLAPSE_SELECTOR,
+			);
+	}
+
+	//-------------------------------------------------------------------------------------
+
+	function loadOptions() {
+		$context = $this->CTXID();
+		$saved = get_option($context);
+		$options = $this->optionsmap();
+		foreach ($options as $key =>& $val) {
+			if (isset($saved[$key])) $val = $saved[$key];
+		}
+		// Backward compatibility hack:
+		// 1) load options from prior version
+		$update = $this->load_option($this->WIDGET_WRAP_SELECTOR, 'WIDGET_WRAP_SELECTOR', $trim)
+		        | $this->load_option($this->WIDGET_TITLE_SELECTOR, 'WIDGET_TITLE_SELECTOR', $trim)
+		        | $this->load_option($this->AUTOCOLLAPSE_SELECTOR, 'AUTOCOLLAPSE_SELECTOR', $trim);
+		// 2) erase options from prior version
+		$this->erase_option('WIDGET_WRAP_SELECTOR');
+		$this->erase_option('WIDGET_TITLE_SELECTOR');
+		$this->erase_option('AUTOCOLLAPSE_SELECTOR');
+		// 3) save new options
+		if ($update) update_option($context, $options);
+	}
+
+	//=====================================================================================
 	// ADMIN
 	//=====================================================================================
 
 	function addAdminMenu() {
 		$title = $this->PLUGIN_TITLE;
-		add_options_page($title, $title, 10, __FILE__, array(&$this, 'displayOptionsPage'));
+		add_options_page($title, $title, 10, __FILE__, array(&$this, 'handleOptions'));
 	}
 
 	//-------------------------------------------------------------------------------------
@@ -161,7 +208,7 @@ class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 			global $wp_registered_widgets;
 			foreach ($wp_registered_widgets as $name => $widget) :
 				$wid = $widget['id'];
-				if (!is_active_widget( $widget['callback'], $wid)) continue;
+				if (!is_active_widget($widget['callback'], $wid)) continue;
 				$this->suggestFor('Auto-collapsed Widgets Selector', "#$wid", $suggestions);
 				$count += 1;
 			endforeach;
@@ -173,14 +220,32 @@ class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 
 	//-------------------------------------------------------------------------------------
 
+	function handleOptions() {
+		$context = $this->CTXID();
+		$options = $this->optionsmap();
+		$updated = false;
+		if ( $_POST['action'] == 'update' ) {
+			check_admin_referer($context);
+			foreach ($options as $key =>& $val) {
+				if ( !isset($_POST[$key]) ) continue;
+				$newval = $this->trim( $_POST[$key] );
+				if ( $newval == $val ) continue;
+				$updated = true;
+				$val = $newval; // remember: $val is a reference
+			}
+			if ($updated)
+				update_option($context, $options);
+		}
+		//$this->displayOptionsPage();
+		$actionURL = $_SERVER['REQUEST_URI'];
+		include 'hackadelic-widgetvoodoo-settings.php';
+	}
+
+	//-------------------------------------------------------------------------------------
+
 	function displayOptionsPage() {
 		include 'hackadelic-widgetvoodoo-settings.php';
 	}
 }
-
-//---------------------------------------------------------------------------------------------
-
-$hackadelicWidgetVoodoo = new HackadelicWidgetVoodoo();
-$hackadelicWidgetVoodoo->setup();
 
 ?>

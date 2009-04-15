@@ -3,7 +3,7 @@ Contributors: Hackadelic
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=1805414
 Tags: content, theme, AJAX, sidebar, widget, widgets
 Requires at least: 2.6
-Tested up to: 2.7
+Tested up to: WP 2.7.1, WPMU 2.7
 Stable tag: 1.0.4
 
 Morphs your sidebar widgets into collapsible, cool AJAX-type citizens.
@@ -13,6 +13,12 @@ Morphs your sidebar widgets into collapsible, cool AJAX-type citizens.
 This plugin morphs your sidebar widgets into collapsible, cool AJAX-type citizens. Check out [the plug-in homepage](http://hackadelic.com/solutions/wordpress/widgetvoodoo "Hackadelic Widget Voodoo") for in-depth information about the plug-in.
 
 ### Change Log
+
+#### [1.0.5 - WPMU Compatibility Release](http://hackadelic.com/widget-voodoo-105-with-wpmu-compatibility)
+
+* Resolves [an issue that prevented saving the settings in WPMU](http://wordpress.org/support/topic/261744)
+* Improves settings handling security and robustness (while preserving backward compatibility).
+* Settings data is now removed upon plugin deactivation.
 
 #### [1.0.4](http://hackadelic.com/widget-voodoo-release-104-supports-variable-title-styling)
 

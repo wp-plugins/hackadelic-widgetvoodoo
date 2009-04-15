@@ -9,19 +9,19 @@ $anySuggestions = $this->getSuggestions($suggestions);
 $options = array(
 	array(
 		'optitle' => 'Widget Selector', 
-		'opkey' => $this->fullname('WIDGET_WRAP_SELECTOR'),
+		'opkey' => 'WIDGET_WRAP_SELECTOR',
 		'opval' => $this->WIDGET_WRAP_SELECTOR,
 		'ophlp' => 'The CSS-style selector that identifies widgets as a whole.'
 		),
 	array(
 		'optitle' => 'Title Selector', 
-		'opkey' => $this->fullname('WIDGET_TITLE_SELECTOR'),
+		'opkey' => 'WIDGET_TITLE_SELECTOR',
 		'opval' => $this->WIDGET_TITLE_SELECTOR,
 		'ophlp' => 'The CSS-style selector that identifies widget titles <b>within</b> a widget.'
 		),
 	array(
 		'optitle' => 'Auto-collapsed Widgets Selector', 
-		'opkey' => $this->fullname('AUTOCOLLAPSE_SELECTOR'),
+		'opkey' => 'AUTOCOLLAPSE_SELECTOR',
 		'opval' => $this->AUTOCOLLAPSE_SELECTOR,
 		'ophlp' => 'A comma-sepearated list of CSS-style selectors for widgets to automatically collapse.'
 		),
@@ -33,19 +33,21 @@ $admPageTitle = "$pluginTitle " . $this->t('Settings');
 include 'hackadelic-widgetvoodoo-admx.php';
 ?>
 
-<form method="post" action="options.php">
-<?php wp_nonce_field('update-options'); ?>
+<?php if ($updated) : ?>
+<div class="updated fade"><p>Plugin settings saved.</p></div>
+<?php endif ?>
+
+<form method="post" action="<?php echo $actionURL ?>">
+<input type="hidden" name="action" value="update" />
+<?php wp_nonce_field($context); ?>
 
 <table class="form-table" style="clear:none">
 
-<?php foreach ($options as $each) :	unset($opsel); extract($each) ; $oplist[] = $opkey ?>
+<?php foreach ($options as $each) :	extract($each) ?>
 <tr>
 <th scope="row" style="border:1px solid #eee"><?php $this->e($optitle) ?></th>
 <td style="border:1px solid #eee">
 	<input type="text" name="<?php echo $opkey ?>" value="<?php echo $opval ?>" style="width:100%" />
-<?php if ($opsel) : ?>
-	<em><?php echo '&lt;= ', $this->e('one of'), ' {', join(array_keys($opsel), ', '), '}' ?></em>
-<?php endif ?>
 
 	<div><em><?php $this->e($ophlp) ?></em>
 <?php $suggested = $suggestions['for'][$optitle]; if ($suggested) : ?>
@@ -100,11 +102,7 @@ endif;
 
 </table>
 
-<input type="hidden" name="action" value="update" />
-<input type="hidden" name="page_options" value="<?php echo join(',', $oplist) ?>" />
-<p class="submit">
-<input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
-</p>
+<p class="submit"><input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" /></p>
 </form>
 
 </div>
