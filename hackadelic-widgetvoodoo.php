@@ -8,6 +8,22 @@ Author: Hackadelic
 Author URI: http://hackadelic.com
 */
 //---------------------------------------------------------------------------------------------
+/*
+Implementation Notes
+====================
+$key =>& $val Construct
+-----------------------
+In PHP 5, $options as $key =>& $val is supported, so that $val is a reference into $options.
+Hence, the following is possible in PHP 5:
+	foreach ($options as $key =>& $val) {
+		if (isset($saved[$key])) $val = $saved[$key];
+	}
+PHP 4 does not support that syntax, so we have to resort to:
+	foreach ($options as $key => $val) {
+		if (isset($saved[$key])) $options[$key] = $saved[$key];
+	}
+*/
+//---------------------------------------------------------------------------------------------
 
 add_action('plugins_loaded', array('HackadelicWidgetVoodoo', 'start'));
 
@@ -49,7 +65,7 @@ class HackadelicWidgetVoodooContext
 class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 {
 	var $PLUGIN_TITLE = 'Widget Voodoo';
-	var $VERSION = '1.0.4';
+	var $VERSION = '1.0.5';
 	
 	var $WIDGET_WRAP_SELECTOR = '.widget';
 	var $WIDGET_TITLE_SELECTOR = '.widgettitle';
@@ -121,8 +137,8 @@ class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 		$context = $this->CTXID();
 		$saved = get_option($context);
 		$options = $this->optionsmap();
-		foreach ($options as $key =>& $val) {
-			if (isset($saved[$key])) $val = $saved[$key];
+		foreach ($options as $key => $val) {
+			if (isset($saved[$key])) $options[$key] = $saved[$key];
 		}
 		// Backward compatibility hack:
 		// 1) load options from prior version
@@ -226,12 +242,12 @@ class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 		$updated = false;
 		if ( $_POST['action'] == 'update' ) {
 			check_admin_referer($context);
-			foreach ($options as $key =>& $val) {
+			foreach ($options as $key => $val) {
 				if ( !isset($_POST[$key]) ) continue;
 				$newval = $this->trim( $_POST[$key] );
 				if ( $newval == $val ) continue;
 				$updated = true;
-				$val = $newval; // remember: $val is a reference
+				$options[$key] = $newval; // cannot use $val, it's not a reference
 			}
 			if ($updated)
 				update_option($context, $options);
