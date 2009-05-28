@@ -1,27 +1,11 @@
 <?php 
 /*
 Plugin Name: Hackadelic WidgetVoodoo
-Version: 1.0.5
+Version: 1.0.6
 Plugin URI: http://hackadelic.com/solutions/wordpress/widgetvoodoo
 Description: Morphs sidebar widgets into cool, collapsible AJAX-type citizens.
 Author: Hackadelic
 Author URI: http://hackadelic.com
-*/
-//---------------------------------------------------------------------------------------------
-/*
-Implementation Notes
-====================
-$key =>& $val Construct
------------------------
-In PHP 5, $options as $key =>& $val is supported, so that $val is a reference into $options.
-Hence, the following is possible in PHP 5:
-	foreach ($options as $key =>& $val) {
-		if (isset($saved[$key])) $val = $saved[$key];
-	}
-PHP 4 does not support that syntax, so we have to resort to:
-	foreach ($options as $key => $val) {
-		if (isset($saved[$key])) $options[$key] = $saved[$key];
-	}
 */
 //---------------------------------------------------------------------------------------------
 
@@ -80,7 +64,6 @@ class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 
 	function HackadelicWidgetVoodoo() {
 		//register_deactivation_hook(__FILE__, array(&$this, 'unsinstall'));
-		$trim = array(&$this, 'trim');
 		$this->loadOptions();
 		if (is_admin())
 			add_action('admin_menu', array(&$this, 'addAdminMenu'));
@@ -135,13 +118,14 @@ class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 
 	function loadOptions() {
 		$context = $this->CTXID();
-		$saved = get_option($context);
 		$options = $this->optionsmap();
-		foreach ($options as $key => $val) {
+		$saved = get_option($context);
+		if ($saved) foreach ($options as $key => $val) {
 			if (isset($saved[$key])) $options[$key] = $saved[$key];
 		}
 		// Backward compatibility hack:
 		// 1) load options from prior version
+		$trim = array(&$this, 'trim');
 		$update = $this->load_option($this->WIDGET_WRAP_SELECTOR, 'WIDGET_WRAP_SELECTOR', $trim)
 		        | $this->load_option($this->WIDGET_TITLE_SELECTOR, 'WIDGET_TITLE_SELECTOR', $trim)
 		        | $this->load_option($this->AUTOCOLLAPSE_SELECTOR, 'AUTOCOLLAPSE_SELECTOR', $trim);
@@ -252,16 +236,25 @@ class HackadelicWidgetVoodoo extends HackadelicWidgetVoodooContext
 			if ($updated)
 				update_option($context, $options);
 		}
-		//$this->displayOptionsPage();
 		$actionURL = $_SERVER['REQUEST_URI'];
-		include 'hackadelic-widgetvoodoo-settings.php';
-	}
-
-	//-------------------------------------------------------------------------------------
-
-	function displayOptionsPage() {
 		include 'hackadelic-widgetvoodoo-settings.php';
 	}
 }
 
+//---------------------------------------------------------------------------------------------
+/*
+Implementation Notes
+====================
+$key =>& $val Construct
+-----------------------
+In PHP 5, $options as $key =>& $val is supported, so that $val is a reference into $options.
+Hence, the following is possible in PHP 5:
+	foreach ($options as $key =>& $val) {
+		if (isset($saved[$key])) $val = $saved[$key];
+	}
+PHP 4 does not support that syntax, so we have to resort to:
+	foreach ($options as $key => $val) {
+		if (isset($saved[$key])) $options[$key] = $saved[$key];
+	}
+*/
 ?>
