@@ -16,7 +16,7 @@ This plugin morphs your sidebar widgets into collapsible, cool AJAX-type citizen
 
 #### [1.0.6]
 
-* Fixes a minor issue with some widgets with uncommon HTML layout, where titles were collapsed as well.
+* Fixes [an issue related to some rare widgets with uncommon HTML layout](http://wordpress.org/support/topic/274155), where titles were collapsed as well.
 
 #### [1.0.5 - WPMU Compatibility Release](http://hackadelic.com/widget-voodoo-105-with-wpmu-compatibility)
 
