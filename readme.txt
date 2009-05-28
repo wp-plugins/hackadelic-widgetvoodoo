@@ -14,7 +14,7 @@ This plugin morphs your sidebar widgets into collapsible, cool AJAX-type citizen
 
 ### Change Log
 
-#### [1.0.6]
+#### 1.0.6
 
 * Fixes [an issue related to some rare widgets with uncommon HTML layout](http://wordpress.org/support/topic/274155), where titles were collapsed as well.
 
