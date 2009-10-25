@@ -47,7 +47,7 @@ $infomercials = array(
 		'icon' => "http://lh4.ggpht.com/_eYaV9fZ6qRg/SYj7e2bE8DI/AAAAAAAAAGE/FoHbGZM2j3A/s800/feed.png" ),
 	array(
 		'text' => 'Order a plugin',
-		'url' => 'http://hackadelic.com/contact',
+		'url' => 'http://hackadelic.com/services',
 		'icon' => "http://lh5.ggpht.com/_eYaV9fZ6qRg/SYj7lcn3TFI/AAAAAAAAAGc/IIpGTWolB7k/s800/lightbulb.png" ),
 );
 
@@ -78,6 +78,7 @@ $infomercials = array(
 	}
 </style>
 <div class="wrap">
+<div id="icon-options-general" class="icon32"><br /></div>
 <h2><?php echo $admPageTitle ?></h2>
 
 <div class="hackadelic-adminfobar">

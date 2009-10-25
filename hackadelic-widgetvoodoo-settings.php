@@ -32,6 +32,12 @@ $pluginTitle = $this->PLUGIN_TITLE;
 $admPageTitle = "$pluginTitle " . $this->t('Settings');
 include 'hackadelic-widgetvoodoo-admx.php';
 ?>
+<style>
+table#sidebar-data td.sidebar-info {
+	border: double #ccc;
+	padding-top: 1em;
+}
+</style>
 
 <?php if ($updated) : ?>
 <div class="updated fade"><p>Plugin settings saved.</p></div>
@@ -84,15 +90,20 @@ to meet them is a breeze. Let me walk you through it in the ${manual}.");
 endif;
 ?>
 
-<table>
+<?php $ncols = $odd = 0 ?>
+<table id="sidebar-data">
 <tr><td colspan="2"><b><?php $this->e('Your current theme\'s sidebar data:') ?></b></td></tr>
-<tr valign="top">
+<tr valign="top" class="sidebar-info">
 <?php foreach ($suggestions['sidebar-data'] as $lines) : ?>
-<td>
+<td class="sidebar-info">
 <?php foreach ($lines as $s) : ?>
 	<div style="border:1px solid #eee"><?php echo $s ?></div>
 <?php endforeach ?>
 </td>
+<?php if (++$ncols > 1): $ncols = 0; $odd = !$odd; ?>
+</tr>
+<tr valign="top" class="notfirst sidebar-info">
+<?php endif ?>
 <?php endforeach ?>
 </tr>
 </table>
