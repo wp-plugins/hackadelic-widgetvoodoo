@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: content, theme, AJAX, sidebar, widget, widgets
 Requires at least: 2.6
 Tested up to: WP 2.7.1, WPMU 2.7
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 
 Morphs your sidebar widgets into collapsible, cool AJAX-type citizens.
 
