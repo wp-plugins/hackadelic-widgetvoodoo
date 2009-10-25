@@ -12,7 +12,7 @@ Morphs your sidebar widgets into collapsible, cool AJAX-type citizens.
 
 This plugin morphs your sidebar widgets into collapsible, cool AJAX-type citizens. Check out [the plug-in homepage](http://hackadelic.com/solutions/wordpress/widgetvoodoo "Hackadelic Widget Voodoo") for in-depth information about the plug-in.
 
-### Change Log
+== Changelog ==
 
 #### [1.0.7]
 
